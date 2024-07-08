@@ -13,6 +13,35 @@ from mmengine.dataset import Compose
 from mmdet.apis import init_detector
 from mmdet.utils import get_test_pipeline_cfg
 
+# This file is part of detect-cow-yoloworld.
+#
+# detect-cow-yoloworld is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# detect-cow-yoloworld is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with detect-cow-yoloworld.  If not, see <http://www.gnu.org/licenses/>.
+#
+# This file incorporates work covered by the following copyright and
+# permission notice:
+#
+# This project includes software from YOLO-World (https://github.com/AILab-CVC/YOLO-World)
+# (C) 2024 AILab-CVC. Licensed under the GNU General Public License v3.0.
+#
+# If you use this project in your research, please cite the following paper:
+#
+# @inproceedings{Cheng2024YOLOWorld,
+#   title={YOLO-World: Real-Time Open-Vocabulary Object Detection},
+#   author={Cheng, Tianheng and Song, Lin and Ge, Yixiao and Liu, Wenyu and Wang, Xinggang and Shan, Ying},
+#   booktitle={Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR)},
+#   year={2024}
+# }
 
 def inference(model, image, texts, test_pipeline, score_thr=0.3, max_dets=100):
 	image = cv2.imread(image)
