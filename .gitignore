@@ -1,0 +1,9 @@
+/build/
+/venv/
+/.pytest_cache/
+/test_rtmp.py
+/captured_frames/
+/captured_frames_detect/
+/captured_frames_origin/
+/weights/
+/mmcv/

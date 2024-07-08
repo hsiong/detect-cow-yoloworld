@@ -1,0 +1,135 @@
+Metadata-Version: 2.1
+Name: yolo_world
+Version: 0.1.0
+Summary: YOLO-World: Real-time Open Vocabulary Object Detection
+Author-email: Tencent AILab <ronnysong@tencent.com>
+License: Apache License 2.0
+Keywords: object detection
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: wheel
+Requires-Dist: torch>=1.11.0
+Requires-Dist: torchvision>=0.16.2
+Requires-Dist: transformers
+Requires-Dist: tokenizers
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: supervision==0.19.0
+Requires-Dist: openmim
+Requires-Dist: mmcv-lite>=2.0.0rc4
+Requires-Dist: mmdet==3.0.0
+Requires-Dist: mmengine>=0.7.1
+Requires-Dist: openmim
+Requires-Dist: mmcv
+Requires-Dist: mmyolo@ git+https://github.com/onuralpszr/mmyolo.git
+
+
+# Before your start
+```shell
+cd code 
+pip install .
+```
+
+> linux: sudo apt install build-essential 
+> https://github.com/AILab-CVC/YOLO-World/blob/master/docs/installation.md
+
+> mmcv:2.0.0 https://mmcv.readthedocs.io/en/latest/get_started/installation.html
+> cuda: 11.8
+> torch: 2.1.2
+>
+> > windows: “crtdbg.h”: No such file or directory
+> >
+> > install Visual Studio Installer -> windows 10 sdk
+>
+> > Torch not compiled with CUDA enabled (cuda 12.2 对应 pytorch 未发布)
+> > pip uninstall torch torchvision torchaudio
+> >
+> > pip install torch==2.1.2 torchvision==0.16.2+cu118 torchaudio==2.1.2+cu118 --index-url https://download.pytorch.org/whl/cu118
+>
+> 
+>
+> 
+>
+> pip install mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.1/index.html
+>
+> > 备选
+> >
+> > > ModuleNotFoundError: No module named 'mmcv._ext'
+> > >
+> > > 自行 compile
+> >
+> > > compile mmcv
+> > >
+> > > mmcv setup.py -> cuda_home = r'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8'
+> > >
+> > > ```
+> > > set MMCV_WITH_OPS=1
+> > > set MMCV_CUDA_ARCH_LIST=8.6
+> > > python setup.py build_ext
+> > > pip install -e .
+> > > ```
+> > >
+> > > 
+> >
+> > > C2429 "requires compiler flag /std:c++17"
+> > > https://github.com/open-mmlab/mmcv/archive/refs/tags/v2.0.0.zip
+> > > extra_compile_args['cxx'] = ['/std:c++14'] -> extra_compile_args['cxx'] = ['/std:c++17']
+> >
+> > > https://github.com/AILab-CVC/YOLO-World/issues/157
+> > >What are the minimum requriements to run YOLO-World? #157
+> > 
+> >> dependencies = [
+> > >  "wheel",
+> > >     "torch==2.1.2",
+> > >     "torchvision==0.16.2",
+> > >     "transformers",
+> > >     "tokenizers",
+> > >     "numpy",
+> > >     "opencv-python",
+> > >     "supervision==0.19.0",
+> > >     "openmim",
+> > >     "mmcv-lite==2.0.1",
+> > >     "mmdet==3.3.0",
+> > >     "mmengine==0.10.4",
+> > >     "mmcv==2.1.0",
+> > >    
+> > > 'mmyolo @ git+https://github.com/onuralpszr/mmyolo.git',
+> > > 
+> > > ]
+> > > ```
+> > 
+> >
+>
+> 
+
+> https://github.com/AILab-CVC/YOLO-World/issues/206
+> Incorrect path_or_model_id: '../pretrained_models/clip-vit-base-patch32-projection'. Please provide either the path to a local folder or the repo_id of a model on the Hub
+> you can comment line 18 and uncomment line 19 in your config file.
+
+>  'Package lvis is not installed. Please run "pip install git+https://github.com/lvis-dataset/lvis-api.git".'
+> pip install git+https://github.com/lvis-dataset/lvis-api.git
+
+> https://github.com/AILab-CVC/YOLO-World/issues/308 
+> No such file or directory: 'data/coco/lvis/lvis_v1_minival_inserted_image_name.json'
+> 下载后, 修改 yolo_world_v2_x_vlpan_bn_2e-3_100e_4x8gpus_obj365v1_goldg_train_1280ft_lvis_minival.json
+> + 删除 coco_val_dataset 的 data_root='data/coco/',
+> + 修改  的 lvis_v1_minival_inserted_image_name.json 的路径
+
+> ./third_party/mmyolo/configs/yolov8/yolov8_x_syncbn_fast_8xb16-500e_coco.py' FileNotFoundError
+> 修改 yolo_world_v2_x_vlpan_bn_2e-3_100e_4x8gpus_obj365v1_goldg_train_1280ft_lvis_minival.json 的 yolov8_x_syncbn_fast_8xb16-500e_coco.py 的路径为 yolo_world_v2_x_vlpan_bn_2e-3_100e_4x8gpus_obj365v1_goldg_train_1280ft_lvis_minival.json 的相对路径
+
+
+>  KeyError: 'YOLOWorldDetector is not in the mmyolo::model registry. Please check whether the value of `YOLOWorldDetector` is correct or it was registered as expected
+>  sys.path.append('yolo_world') # Adjust this path
+
+> 多卡推理:https://github.com/AILab-CVC/YOLO-World/issues/246
