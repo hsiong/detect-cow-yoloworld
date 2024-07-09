@@ -164,7 +164,7 @@ def test_detect_cow():
 	
 	texts = [['cow']]
 	
-	directory_path = '../detect-cow/captured_frames'
+	directory_path = './captured_frames'
 	files = list_img(directory_path)
 	for file in files:
 		detect(model, file, texts, test_pipeline) 
