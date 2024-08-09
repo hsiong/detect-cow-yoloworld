@@ -28,6 +28,21 @@ torch: 2.1.2
 
 python: 3.8 (64bit)
 
++ cuda & nvidia compatibility: nvidia version`nvidia-smi`
+  
+  + https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#
+  + https://jia.je/software/2021/12/26/nvidia-cuda/
+  
++ cuda & pytorch compatibility
+  + https://elenacliu-pytorch-cuda-driver.streamlit.app/
+  + https://download.pytorch.org/whl/torch/
+
++ cuda & windows compatibility: Windows Compiler Support in CUDA xx.xx
+
+  https://developer.download.nvidia.com/compute/cuda/11.8.0/docs/sidebar/CUDA_Installation_Guide_Windows.pdf
+
+  + windows  vs install & vc++ compatibility : https://dev.to/yumetodo/list-of-mscver-and-mscfullver-8nd
+
 + windows: “crtdbg.h”: No such file or directory
 
   ```
@@ -36,26 +51,28 @@ python: 3.8 (64bit)
 
 + ERROR: torch-2.1.2+cu118-cp38-cp38-win_amd64.whl is not a supported wheel on this platform.
 
+  python 64 bit   
+  https://download.pytorch.org/whl/cu118/torch-2.1.2%2Bcu118-cp38-cp38-win_amd64.whl#sha256=0fb6318c4895d0700c6479b9c89309ffff62bd86c4fc0ee8673319945c78b275
   ```
-  python 64 bit
-  
-  pip install weights/torch-2.1.2+cu118-cp38-cp38-win_amd64.whl
+  pip install D:\project\python\detect-cow-yoloworld\weights\torch-2.1.2+cu118-cp38-cp38-win_amd64.whl
   ```
 
-+ Torch not compiled with CUDA enabled (cuda 12.2 对应 pytorch 未发布)
-  pip uninstall torch torchvision torchaudio
++ Torch not compiled with CUDA enabled (cuda 12.2 对应 pytorch 未发布)  
+
 
   ```
+  pip uninstall torchvision torchaudio
   pip install torchvision==0.16.2+cu118 --index-url https://download.pytorch.org/whl/cu118
   ```
 
 + unsupported Microsoft Visual Studio version! Only the versio ns between 2017 and 2022 (inclusive) are supported! The nvcc flag '-allow-unsupported-compiler' can be used to override this version check; however, using an unsupported host compiler may cause compilation failure or incorrect run time execution. Use at your own risk.
 
-  **Visual Studio 2017 (版本 15.x)**
-
-  **Visual Studio 2019 (版本 16.x)**
-
-  **Visual Studio 2022 (版本 17.x)**
+  + MSVC v143
+  + C++  CMake
+  + V143 C++/CLI
+  + Windows 10 SDK - 10.0.19041.0
+  + MSVC v142
+  > https://github.com/nerfstudio-project/nerfstudio/issues/3157 : reinstall vs install
 
 + ModuleNotFoundError: No module named 'mmcv._ext'
 

@@ -6,8 +6,9 @@ import time
 from typing import List
 
 import cv2
+import numpy as np
 import torch
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from mmengine.config import Config
 from mmengine.dataset import Compose
 from mmdet.apis import init_detector
@@ -93,26 +94,45 @@ class DetectedObject:
 				f"label={self.label}, class_name={self.class_name}, score={self.score})")
 
 
+def get_random_color():
+	# random color
+	# color = tuple(np.random.randint(0, 255, size=3).tolist())
+	
+	colors = [(255, 69, 0),  # Orange-red
+			  (255, 50, 50),  # Bright red
+			  (255, 0, 0),  # Classic red
+			  (255, 20, 147),  # Deep pink
+			  (255, 165, 0),  # Orange
+			  (0, 255, 0),  # Lime green
+			  (0, 0, 255),  # Blue
+			  (128, 0, 128),  # Purple
+			  ]
+	# Randomly select one color
+	color = tuple(colors[np.random.randint(0, len(colors))])
+	return color
+
+
 def draw_img(detected_objects: List[DetectedObject], image_path):
 	image = Image.open(image_path)
 	draw = ImageDraw.Draw(image)
 	
 	for obj in detected_objects:
 		bbox = obj.bbox
-		draw.rectangle(bbox, outline="red", width=2)
-		draw.text((bbox[0], bbox[1]), f"{obj.class_name} {obj.score:.2f}", fill="red")
+		color = get_random_color()
+		draw.rectangle(bbox, outline=color, width=2)
+		
+		# Create the font object
+		font = ImageFont.truetype("arial.ttf", 20)
+		draw.text((bbox[0], bbox[1]), f"{obj.class_name} {obj.score:.2f}", width=3, fill=color, font=font)
 	
 	# 生成保存路径
-	original_dir = os.path.dirname(image_path)
-	parent_dir = os.path.basename(original_dir)
-	detect_dir_name = f"{parent_dir}_detect"
-	new_dir = os.path.join(original_dir, "..", detect_dir_name)
-	os.makedirs(new_dir, exist_ok=True)
+	output_dir = f"D:/project/python/detect-cow/output/yoloworld".replace('.', '_')
+	os.makedirs(output_dir, exist_ok=True)
 	
 	original_filename = os.path.basename(image_path)
 	filename, ext = os.path.splitext(original_filename)
 	new_filename = f"{filename}_detect{ext}"
-	save_path = os.path.join(new_dir, new_filename)
+	save_path = os.path.join(output_dir, new_filename)
 	
 	#image.show()  # 显示图像
 	# 保存图像
@@ -164,7 +184,7 @@ def test_detect_cow():
 	
 	texts = [['cow']]
 	
-	directory_path = './captured_frames'
+	directory_path = r'D:\project\python\detect-cow\frame_source_demo'
 	files = list_img(directory_path)
 	for file in files:
 		detect(model, file, texts, test_pipeline) 
